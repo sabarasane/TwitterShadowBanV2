@@ -3,7 +3,7 @@ export default (complete) => {
   return M.toast({
     html: markup.innerHTML,
     displayLength: Infinity,
-    classes: 'qf-setting-toast',
+    classes: 'qf-setting-toast rtl',
     completeCallback: complete
   });
 };

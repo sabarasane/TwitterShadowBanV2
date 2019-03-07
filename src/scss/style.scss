@@ -7,14 +7,19 @@ $ACCENT_WARN: orange;
 * {
     outline: none;
 }
-
+h1, h2, h3, h4, h5, h6,input, textarea {
+	font-family: IRANSans !important;
+}
 body {
-  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: IRANSans !important;
   color: #333;
   background-color: rgb(230, 236, 240);
-  font-weight: 500;
+  font-weight: 300;
 }
-
+.rtl {
+    text-align: right !important;
+    direction: rtl !important;
+}
 .material-icons {
   -webkit-user-select: none;
   -moz-user-select: none;

@@ -71,7 +71,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
   window.ui.updateTask({
     id: 'checkRefTweet',
     status: 'running',
-    msg: ' Testing for QFD Ban...'
+    msg: 'در حال بررسی محدودیت QFD ...'
   });
 
   const _result = result;
@@ -98,7 +98,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
         window.ui.updateTask({
           id: 'checkRefTweet',
           status: 'ban',
-          msg: 'QFD Ban!'
+          msg: 'محدودیت QFD دارد.'
         });
         _result.QFD.isBanned = true;
         TechInfo.updateQFD(_result);
@@ -108,7 +108,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
       window.ui.updateTask({
         id: 'checkRefTweet',
         status: 'ok',
-        msg: 'No QFD Ban'
+        msg: 'محدودیت QFD ندارد.'
       });
       _result.QFD.isBanned = false;
       TechInfo.updateQFD(_result);
@@ -124,7 +124,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
     window.ui.updateTask({
       id: ['checkRefTweet'],
       status: 'warn',
-      msg: `@${screenName} could not be tested for QFD.<br />The QFD test needs least one tweet containing a link or an image.`
+      msg: `@${screenName} نمی تواند برای QFD بررسی شود.<br />QFD نیاز به حداقل یک توییت حاوی لینک یا تصویر دارد.`
     });
     delete _result.QFD.login;
     delete _result.QFD.tweetId;
@@ -147,7 +147,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
       window.ui.updateTask({
         id: 'checkRefTweet',
         status: 'ban',
-        msg: 'QFD Ban!'
+        msg: 'محدودیت QFD دارد.'
       });
       _result.QFD.isBanned = true;
       TechInfo.updateQFD(_result);
@@ -157,7 +157,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
     window.ui.updateTask({
       id: 'checkRefTweet',
       status: 'ok',
-      msg: 'No QFD Ban'
+      msg: 'محدودیت QFD ندارد.'
     });
     _result.QFD.isBanned = false;
     TechInfo.updateQFD(_result);
@@ -167,7 +167,7 @@ const qfBanTest = async (screenName, result = {}, prefUA = 0) => {
   window.ui.updateTask({
     id: ['checkRefTweet'],
     status: 'warn',
-    msg: `QFD tests failed.<br />@${screenName} could not be tested for QFD.`
+    msg: `بررسی‌های QFD موفق نبود.<br />@${screenName} نمی‌تواند برای QFD بررسی شود.`
   });
   delete _result.QFD.login;
   delete _result.QFD.tweetId;
@@ -240,7 +240,7 @@ const fullTest = async (screenName) => {
   window.ui.updateTask({
     id: 'checkUser',
     status: 'running',
-    msg: `Looking up @${screenName}`
+    msg: `در حال بررسی کاربر @${screenName}`
   });
 
   // Check whether user exists at all
@@ -252,7 +252,7 @@ const fullTest = async (screenName) => {
     window.ui.updateTask({
       id: ['checkUser', 'checkSearch', 'checkConventional', 'checkRefTweet', 'checkSuggest'],
       status: 'ban',
-      msg: `User <a href="https://twitter.com/${screenName}">@${screenName}</a> does not exist.`
+      msg: `کاربر <a href="https://twitter.com/${screenName}">@${screenName}</a> وجود ندارد.`
     });
     return result;
   }
@@ -264,7 +264,7 @@ const fullTest = async (screenName) => {
   window.ui.updateTask({
     id: 'checkUser',
     status: 'ok',
-    msg: `Found <a href="https://twitter.com/${screenName}">@${screenName}</a>.`
+    msg: `پیدا شد <a href="https://twitter.com/${screenName}">@${screenName}</a>.`
   });
 
   // user found, but has no tweets
@@ -272,7 +272,7 @@ const fullTest = async (screenName) => {
     window.ui.updateTask({
       id: ['checkSearch', 'checkConventional', 'checkRefTweet', 'checkSuggest'],
       status: 'ban',
-      msg: `<a href="https://twitter.com/${screenName}">@${screenName}</a> hasn't made any tweets!<br />This test needs at least one tweet.`
+      msg: `<a href="https://twitter.com/${screenName}">@${screenName}</a> تاکنون توییتی نکرده است<br />این تست حداقل یک توییت لازم دارد`
     });
     return result;
   }
@@ -281,29 +281,29 @@ const fullTest = async (screenName) => {
   window.ui.updateTask({
     id: 'checkSuggest',
     status: 'running',
-    msg: 'Testing search suggestion ban...'
+    msg: 'در حال بررسی محدودیت پیشنهاد جست‌وجو'
   });
-  
+
   const foundSuggestion = await suggestionTest(screenName);
-  
+
   if(foundSuggestion) {
     window.ui.updateTask({
       id: 'checkSuggest',
       status: 'ok',
-      msg: 'No Search Suggestion Ban'
+      msg: 'محدودیت پیشنهاد جست‌وجو ندارد.'
     });
   } else {
     window.ui.updateTask({
       id: 'checkSuggest',
       status: 'ban',
-      msg: 'Search Suggestion Ban!'
+      msg: 'محدودیت پیشنهاد جست‌وجو'
     });
   }
 
   window.ui.updateTask({
     id: 'checkSearch',
     status: 'running',
-    msg: 'Testing search ban...'
+    msg: 'در حال بررسی محدودیت در نتایج جست‌وجو ...'
   });
 
   // Check whether user is v1 banned; no need to test v2, if so
@@ -314,11 +314,11 @@ const fullTest = async (screenName) => {
     window.ui.updateTask({
       id: ['checkSearch', 'checkRefTweet'],
       status: 'ban',
-      msg: 'Search Ban!'
+      msg: 'محدودیت در نتایج جست‌وجو دارد!'
     }, {
       id: 'checkConventional',
       status: 'running',
-      msg: 'Testing Thread Ban...'
+      msg: 'در حال بررسی محدودیت رشته'
     });
 
     const [isConventionalBanned, convTweet, convReply] = await conventionalBanTest(screenName);
@@ -327,7 +327,7 @@ const fullTest = async (screenName) => {
       window.ui.updateTask({
         id: 'checkConventional',
         status: 'ok',
-        msg: 'No Thread Ban.'
+        msg: 'محدودیت رشته ندارد'
       });
       result.thread.isBanned = false;
       result.thread.tweet = convTweet;
@@ -336,7 +336,7 @@ const fullTest = async (screenName) => {
       window.ui.updateTask({
         id: 'checkConventional',
         status: 'ban',
-        msg: 'Thread Ban!'
+        msg: 'محدودیت رشته دارد!'
       });
       result.thread.isBanned = true;
       result.thread.tweet = convTweet;
@@ -345,7 +345,7 @@ const fullTest = async (screenName) => {
       window.ui.updateTask({
         id: 'checkConventional',
         status: 'warn',
-        msg: `${screenName} couldn't be tested for a thread shadowban.`
+        msg: `${screenName} نمی‌تواند برای محدودیت رشته بررسی شود.`
       });
     }
     TechInfo.updateThread(result);
@@ -358,11 +358,11 @@ const fullTest = async (screenName) => {
   window.ui.updateTask({
     id: 'checkSearch',
     status: 'ok',
-    msg: 'No Search Ban'
+    msg: 'محدودیت در نتایج جست‌وجو ندارد'
   }, {
     id: 'checkConventional',
     status: 'ok',
-    msg: 'No Thread Ban'
+    msg: 'محدودیت رشته ندارد.'
   });
 
   // Check v2 shadowban; UI updates inside (POLA violation, I know :P)

@@ -127,7 +127,7 @@ export default class UI {
     const taskUpdates = incompleteTasks.map(x => ({
       id: x.dataset.taskId,
       status: 'warn',
-      msg: 'A server error occured. Failed to test. Please try again later.'
+      msg: 'خطایی در سرور رخ داد، لطف بعدا تلاش کنید'
     }));
     this.updateTask(...taskUpdates);
   };
@@ -208,11 +208,11 @@ export default class UI {
     this.updateTask({
       id: 'checkUser',
       status: 'running',
-      msg: `Looking up user @${screenName}`
+      msg: `در حال بررسی کاربر @${screenName}`
     }, {
       id: ['checkSearch', 'checkConventional', 'checkRefTweet', 'checkSuggest'],
       status: 'pending',
-      msg: 'Waiting for user.'
+      msg: 'در انتظار کاربر.'
     });
     TechInfo.reset();
   }

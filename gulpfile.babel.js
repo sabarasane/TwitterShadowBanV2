@@ -21,8 +21,7 @@ const paths = {
   scss: ['src/scss/*.scss'],
   templating: 'src/*.html',
   copyOnly: [
-    'src/*.php', 'src/img/**', 'src/vendor/**/*.+(css|js)',
-    'src/favicon.png', 'src/sm_preview.png'
+    'src/*.php', 'src/img/**', 'src/vendor/**/*.+(css|js)'
   ]
 };
 

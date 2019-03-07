@@ -1,426 +1,299 @@
 <!doctype html>
 <html>
-  <head lang='en'>
-    <meta charset='utf-8'>
-    <title>Twitter Shadowban Test</title>
-    <meta description="Determine wether a Twitter user is shadow banned">
-    <meta name="keywords" content="Twitter, Shadowban, Shadowbanned, Ban, Block, Quality Filter, QFD">
-    <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1'>
-    <meta property="og:title" content="Twitter Shadowban Test">
-    <meta property="og:description" content="Are you shadowbanned on Twitter?">
-    <meta property="og:image" content="https://www.shadowban.eu/sm_preview.png">
-    <meta property="og:url" content="https://www.shadowban.eu/">
-    <meta property="og:site_name" content="Twitter Shadowban Test">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image:alt" content="shadwoban.eu">
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <base target="_blank">
 
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="vendor/materialize/css/materialize{{useMinified}}.css"  media="screen,projection"/>
-    <!-- Custom -->
-    <link rel="stylesheet" type="text/css" href="css/{{bundleVersion}}/style.css">
-  </head>
-  <body>
-    <section class="row header section">
-      <div class="col s12">
-        <h2>Is <span class="header-screen_name">@username</span><br> shadowbanned on Twitter?</h2>
-      </div>
-      <button data-target="donate-modal" class="btn modal-trigger waves-effect waves white">Support Us</button>
-    </section>
+<head lang='fa'>
+	<meta charset='utf-8'>
+	<title>شدو بن - صبارسانه</title>
+	<meta description="بررسی محدودیت شناسه‌های توییتری">
+	<meta name="keywords" content="Twitter, Shadowban, Shadowbanned, Ban, Block, Quality Filter, QFD, صبارسانه, محدودیت, توییتر, شناسه, شدوبن">
+	<meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1'>
+	<meta property="og:title" content="بررسی محدودیت توییتر - صبارسانه">
+	<meta property="og:description" content="بررسی شدو بن">
+	<meta property="og:image" content="img/preview.png">
+	<meta property="og:url" content="https://shadowban.sabamedia.info">
+	<meta property="og:site_name" content="بررسی محدودیت توییتر - صبارسانه">
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sabarasane">
+	<meta name="twitter:image:alt" content="https://shadowban.sabamedia.info">
+	<link rel="icon" type="image/png" href="img/favicon.png" />
+	<base target="_blank">
 
-    <section id="controls" class="row">
-      <div class="col s12 offset-m1 m10 offset-l2 l8 center-align">
-        <div class="card valign-wrapper">
-          <div class="input-field">
-            <span class="prefix">@</span>
-            <input
-              id="screenName"
-              type="text"
-              autocomplete="username"
-              required
-              pattern="^[A-Za-z0-9_]{1,15}$"
-              data-position="bottom"
-              data-tooltip="Please provide a valid Twitter @handle!"
-              maxlength="16"
-            >
-            <label for="screenName">Username</label>
-          </div>
-          <div>
-            <button id="check" class="waves-effect waves white btn btn-flat">Check</button>
-          </div>
-        </div>
-      </div>
-    </section>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import Fonts-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="vendor/materialize/css/materialize.css" media="screen,projection" />
+	<!-- Custom -->
+	<link rel="stylesheet" type="text/css" href="css/1.3.3-development/style.css">
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <section id="results" class="row">
-      <div class="col s12 offset-m1 m10 offset-l2 l8 center-align">
-        <ul id="tasks" class="collapsible">
-          <li>
-            <div class="collapsible-header" data-task-id="checkUser" collapsible-non-interactive>
-              <i class="material-icons notranslate"></i>
-              <div class="task-message">
-                <span>Test Results</span>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" data-task-id="checkSuggest">
-              <i class="material-icons notranslate">contact_support</i>
-              <div class="task-message">
-                <span>Search Suggestion Ban</span>
-              </div>
-            </div>
-            <div class="collapsible-body left-align">
-              <h5>Search Suggestion Ban</h5>
-              <p>
-                This type of ban causes an account to not populate search suggestions
-                and people search results when it is searched for while being logged out.
-                Twitter seems to take <a href="https://en.wikipedia.org/wiki/Social_network_analysis#Metrics" target="_blank">tie strength</a> or a similar metric into account. While an account may be suggested to users you are strongly tied to, it may not be shown to others.
-              </p>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" data-task-id="checkSearch">
-              <i class="material-icons notranslate">contact_support</i>
-              <div class="task-message">
-                <span>Search Ban</span>
-              </div>
-            </div>
-            <div class="collapsible-body left-align">
-              <h5>Search Ban</h5>
-              <p>
-                This type of ban causes your tweets to be hidden from the search results
-                entirely, no matter whether the quality filter is turned on or off.
-                This behavior includes hashtags as well. This type of ban seems to be
-                temporally limited for active accounts.
-              </p>
-              <ul id="searchFAQ" class="collapsible hide">
-                <li class="techInfo">
-                  <div class="collapsible-header">
-                    <span>Technical information about the result</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p class="techContent">
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" data-task-id="checkConventional">
-              <i class="material-icons notranslate">contact_support</i>
-              <div class="task-message">
-                <span>Thread Ban</span>
-              </div>
-            </div>
-            <div class="collapsible-body left-align">
-              <h5>Thread Ban</h5>
-              <p>
-                This is what is referred to as conventional shadowban as well. It comprises a
-                search ban while threads are completely ripped apart by hiding reply tweets
-                of the affected user to others. Everything will look perfectly normal to the
-                affected user but many others will not be able to see reply tweets of the
-                affected user at all. Reasons for this ban include behavior like excessive
-                tweeting or following. Again, this type of ban seems to be temporally limited
-                for active accounts.
-              </p>
-              <ul id="threadFAQ" class="collapsible hide">
-                <li class="techInfo">
-                  <div class="collapsible-header">
-                    <span>Technical information about the result</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p class="techContent">
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" data-task-id="checkRefTweet">
-              <i class="material-icons notranslate">contact_support</i>
-              <div class="task-message">
-                <span>QFD</span>
-              </div>
-            </div>
-            <div class="collapsible-body left-align">
-              <h5>Quality Filter Discrimination</h5>
-              <p>
-                QFD causes your tweets to be invisible within the latest section of the
-                search, including hashtags, when the quality filter is turned on. Note that
-                this quality filter is located on the search page, is turned on by default
-                and will be reset for each search anew. It differs from the quality filter
-                controlling your notifications. QFD was introduced on May 15, 2018 as part of
-                Twitter's so-called <a href="https://blog.twitter.com/official/en_us/topics/product/2018/Serving_Healthy_Conversation.html">healthy conversation project</a>.
-              </p>
-              <ul id="qfdFAQ" class="collapsible">
-                <li>
-                  <div class="collapsible-header">
-                    <span>Does turning off the quality filter within my notification settings help?</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p>
-                      The quality filter within your notification settings only controls the
-                      notification you receive. Turning it off is recommended and will cause you
-                      to see more notifications which you would not have received otherwise.
-                      However, turning it off will not cause your own tweets to be more visible.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header">
-                    <span>How do I get into the QFD ban?</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p>
-                      A lot of interaction with accounts affected by QFD will likely cause your
-                      account to be affected by QFD soon, too. The absence of personal misbehavior
-                      does not guarantee an account to be unaffected.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header">
-                    <span>How do I get out of the QFD ban?</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p>
-                      Several German Twitter users that were affected by QFD have been
-                      experimenting with an Arabic follow-back botnet.
-                      The botnet generated a lot of followers for those who followed some
-                      accounts from this botnet. By accumulating many new followers that were not
-                      affected by QFD, at least 30 accounts were able to escape this type of ban.
-                      This is a strong hint that guilt by association is a major concept of the
-                      classifying algorithm.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header">
-                    <span>Is there a political bias?</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p>
-                      The quality filter indeed seems to mainly affect conservative and right-wing
-                      accounts. Testing over 2,000 contacts of two German left-wing extremist
-                      accounts did not yield a single account affected by QFD that would not be
-                      considered politically right. Testing 509 Twitter accounts from German
-                      members of Parliament yielded 14 affected accounts. All of them belong to
-                      the AfD, which is a German right-wing party.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header">
-                    <span>Does it only affect hashtags and the search? Why is it so bad then?</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p>
-                      We cannot tell whether the effects of QFD are limited to hashtags and the
-                      search. These are only the symptoms making the ban visible to us. It shows
-                      that Twitter is capable and willing to discriminate against accounts with certain
-                      political opinions. Since shadowbanning is a very unethical way to silence
-                      people already, it is possible for Twitter to apply methods that are harder
-                      to detect. Think of more subtle ways of banning by limiting the share of
-                      followers who a user's tweets are shown to. This would be a censorship
-                      method that could only be detected collectively by their followers.
-                    </p>
-                  </div>
-                </li>
-                <li class="techInfo hide">
-                  <div class="collapsible-header">
-                    <span>Technical information about the result</span>
-                  </div>
-                  <div class="collapsible-body">
-                    <p class="techContent">
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
+</head>
 
-    <section class="row">
-      <div class="col s12 offset-m1 m10 offset-l2 l8">
-        <ul id="functionality" class="collapsible popout">
-          <li>
-            <div class="collapsible-header">
-              Can I Help?
-            </div>
-            <div class="collapsible-body">
-              <h5>Why yes! Thanks for asking!</h5>
-              <p>
-                If you are affected by the QFD, you can help us spread awareness about Twitter's
-                censorship.<br />
-                Many affected users have included a red
-                <img class="emoji" src="https://assets-cdn.github.com/images/icons/emoji/unicode/274c.png" />
-                in their Twitter name.<br />
-                Not only as a personal statement, but also to show how many censored users there are.
-              </p>
-              <p>
-                You can copy the symbol from here: <code>❌</code>
-              </p>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header">
-              How Does This Tester Work?
-            </div>
-            <div class="collapsible-body">
-              <h5>Search Ban</h5>
-              <p>
-                The Twitter search features several search modifiers. One of them is the prefix from:
-                which allows to search for tweets from a specific user. For example, when checking
-                whether
-                <a href="https://twitter.com/shadowban_eu">
-                  @shadowban_eu
-                </a>
-                has a shadowban, we query the Twitter search for
-                <a href="https://twitter.com/search?f=tweets&vertical=default&q=from%3A%40shadowban_eu&src=typd&qf=off">
-                  from:@shadowban_eu
-                </a>.
-                If we do not find any tweets although the user has
-                tweeted in the past, the account is subject to a search ban.
-              </p>
-              <h5>Thread Ban</h5>
-              <p>
-                When the user has a search ban, the tester searches their profile for the latest
-                tweet with at least one reply. It then visits the direct URL of the tweet and
-                selects some reply tweet. Afterwards, the direct URL of the reply tweet is visited.
-                If the tweet that the user replied to is not visible, the likelihood that the
-                account is affected by a thread shadowban is very high.
-              </p>
-              <h5>QFD</h5>
-              <p>
-                When you upload an image, cite a tweet or link to an external page, Twitter generates
-                a shortlink for that content.
-              </p>
-              <p>
-                We first find a reference tweet using a combination of from: and filter: search
-                modifiers. For example,
-                <a href="https://twitter.com/search?f=tweets&q=from%3A%40shadowban_eu%20filter%3Alinks&src=typd">
-                  from:@shadowban_eu filter:links
-                </a>
-                returns all tweets from
-                <a href="https://twitter.com/shadowban_eu">
-                  @shadowban_eu
-                </a>
-                containing a link.
-              </p>
-              <p>
-                We simply pick one result tweet as
-                reference and extract the shortlink, e.g.
-                <a href="https://t.co/5Vzu63ypQJ">
-                  https://t.co/5Vzu63ypQJ
-                </a>.<br />
-                (This link points to a tweet, quoted <a href="https://twitter.com/shadowban_eu/status/1019242190277697538">here</a>).
-              </p>
-              <p>
-                We then query the Twitter search for the tweet using the shortlink's URL
-                with the quality filter turned on and off.
-                If the reference tweet is found in both
-                cases, the account is not affected by QFD. In case it is found only when the filter
-                is turned off, it is affected.
-              </p>
-              <p>
-                We chose this method because shortlinks are unique. Methodically, it does not differ
-                from searching for text or a hashtag but the uniqueness of shortlinks is a technical
-                advantage.
-              </p>
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
+<body>
+	<div class="navbar-fixed">
+		<nav class="blue darken-2">
+			<div class="nav-wrapper">
+				<div class="container">
+					<a href="#" data-target="mobile-demo" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
+					<ul class="right hide-on-med-and-down">
+						<li class="rtl right"><a href="https://sabamedia.info" class="white-text pf"><i class="fas fa-home fa-sm" aria-hidden="true"></i> صبارسانه </a></li>
+						<li class="rtl right"><a href="https://trend.sabamedia.info" class="white-text pf"><i class="fas fa-hashtag fa-sm" aria-hidden="true"></i> ترند </a></li>
+						<li class="rtl right"><a href="https://blog.sabamedia.info" class="white-text pf"><i class="fas fa-blog fa-sm" aria-hidden="true"></i> وبلاگ </a></li>
+					</ul>
+					<div class="left">
+						<a href="https://twitter.com/sabarasane"><i class="fab fa-twitter white-text wow bounceInLeft"></i></a>
+						<a href="https://t.me/sabamedia"><i class="fab fa-telegram-plane white-text wow bounceInLeft"></i></a>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<ul class="sidenav" id="mobile-demo">
+		<li class="rtl">
+			<a href="https://sabamedia.info" class="pf">
+				<i class="fas fa-home fa-sm" aria-hidden="true"></i> صبارسانه </a>
+		</li>
+		<li class="rtl">
+			<a href="https://trend.sabamedia.info" class="pf">
+				<i class="fas fa-hashtag fa-sm" aria-hidden="true"></i> ترند </a>
+		</li>
+		<li class="rtl">
+			<a href="https://blog.sabamedia.info" class="pf">
+				<i class="fas fa-blog fa-sm" aria-hidden="true"></i> وبلاگ </a>
+		</li>
+	</ul>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.sidenav').sidenav();
+		});
+	</script>
+	<section class="row header section">
+		<div class="col s12">
+			<h2>محدودیت در سایه</h2>
+		</div>
+	</section>
 
-    <footer class="section">
-      <div class="row">
-        <div class="col offset-s2 s8 center-align">
-          Source code is <a href="https://github.com/shadowban-eu/TwitterShadowBanV2" target="_blank">public on Github</a>
-          <br />
-          No cookies, no tracking, screw NetzDG and GDPR!
-          <br />
-          <a href="https://twitter.com/Netzdenunziant" target="_blank">@Netzdenunziant</a> (research), <a href="https://twitter.com/raphaelbeerlin" target="_blank">@raphaelbeerlin</a> (implementation)
-        </div>
-      </div>
-    </footer>
-    <div id="qf-setting-toast-template" class="hide">
-      <div class="row">
-        <div class="col s12">
-          PLEASE NOTE: The "quality filter" option in the <i>notification settings</i> does
-          <b>not</b> increase the visibility of your own tweets nor
-          does it disable the quality filter for search results.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 center">
-          <button
-            class="btn-flat toast-action"
-            onClick="ui.qfSettingToastDimsmiss();">OK</button>
-          <button
-            class="btn-flat toast-action"
-            onClick="ui.qfSettingToastShowMore();">MORE</button>
-        </div>
-      </div>
-    </div>
-    <div id="donate-modal" class="modal modal-fixed-footer">
-      <div class="modal-content">
-        <h4>Support Us</h4>
-        <p>Shadowban.eu is an open-source project, created and run in the spirit of Benjamin Franklin's</p>
-        <p>
-          <i>“Knowledge is in every country the surest basis of public happiness.”</i>
-        </p>
-        <p>
-          We hope to have brought you some clarity about what is going on with your Twitter account.
-          If you feel like supporting us, you can do so by donating to our PayPal.
-        </p>
-        <h6>
-          We aren't done, there's more to come
-        </h6>
-        <p>
-          Your donation would help
-        </p>
-        <ul class="browser-default">
-          <li>
-            <i class="material-icons notranslate">search</i>
-            <span>
-              us to look further into other ways Twitter has implemented to lower your reach,
-            </span>
-          </li>
-          <li>
-            <i class="material-icons notranslate">build</i>
-            <span>
-              the development of this site and an API to test multiple accounts at the same time
-              or all of your followers,
-            </span>
-          </li>
-          <li>
-            <i class="material-icons notranslate">extension</i>
-            <span>
-              the development of TwitterNinja, a browser extension that disables the quality filter
-              for you.
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <a href="https://www.paypal.me/shadowban" class="waves-effect waves white btn">Donate via PayPal</a>
-      </div>
-    </div>
-    {{devBanner}}
-    <script type="text/javascript" src="vendor/materialize/js/materialize{{useMinified}}.js"></script>
-    <script src='js/main.bundle-{{bundleVersion}}.js'></script>
-  </body>
+	<section id="controls" class="row">
+		<div class="col s12 offset-m1 m10 offset-l2 l8 center-align">
+			<div class="card valign-wrapper">
+				<div class="input-field">
+					<span class="prefix">@</span>
+					<input id="screenName" type="text" autocomplete="username" required pattern="^[A-Za-z0-9_]{1,15}$" data-position="bottom" data-tooltip="نام کاربری توییتری را وارد کنید" maxlength="16">
+					<label for="screenName">نام کاربری</label>
+				</div>
+				<div>
+					<button id="check" class="waves-effect waves white btn btn-flat">بررسی</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="results" class="row">
+		<div class="col s12 offset-m1 m10 offset-l2 l8 center-align">
+			<ul id="tasks" class="collapsible">
+				<li>
+					<div class="collapsible-header" data-task-id="checkUser" collapsible-non-interactive>
+						<i class="material-icons notranslate"></i>
+						<div class="task-message rtl">
+							<span>نتایج بررسی</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header" data-task-id="checkSuggest">
+						<i class="material-icons notranslate">contact_support</i>
+						<div class="task-message rtl">
+							<span>محدودیت پیشنهاد در جست‌و‌جو</span>
+						</div>
+					</div>
+					<div class="collapsible-body rtl">
+						<h5>محدودیت پیشنهاد در جست‌و‌جو</h5>
+						<p> این نوع محدودیت باعث می شود، شناسه در نتایج جست‌وجو افراد و پیشنهادهای جست‌وجو‌ در زمانی که اشخاص خارج از شناسه کاربری هستند دیده نشود. بنظر می‌رسد توییتر <a rel="noreferrer noopener" aria-label="پایش استحکام ارتباط (در یک برگه جدید باز می‌کند)"
+							 href="https://en.wikipedia.org/wiki/Social_network_analysis#Metrics" target="_blank">پایش استحکام ارتباط</a> و یا استانداردی مشابه را در مورد شناسه کاربری بکار می‌گیرد. درحالی که ممکن است یک شناسه به افرادی که با شما ارتباط زیادی دارند
+							پیشنهاد شود، اما به افرادی دیگر نمایش داده نشود.</p>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header" data-task-id="checkSearch">
+						<i class="material-icons notranslate">contact_support</i>
+						<div class="task-message rtl">
+							<span>محدودیت در نتایج جست‌وجو</span>
+						</div>
+					</div>
+					<div class="collapsible-body rtl">
+						<h5>محدودیت در نتایج جست‌وجو</h5>
+						<p> این نوع از محدودیت موجب می‌شود تا توییت‌های شما به طور کامل از نتایج جست‌وجو مخفی بماند که در آن فعال یا غیرفعال بودن گزینه‌های فیلتر کیفیت جست‌وجو تاثیر گذار نیست. همچنین این خط مشی شامل هشتگ‌ها نیز می‌شود. بنظر می‌رسد این نوع محدودیت
+							بصورت موقت، شناسه‌‌های فعال را محدود می‌کند.</p>
+						<ul id="searchFAQ" class="collapsible hide">
+							<li class="techInfo">
+								<div class="collapsible-header">
+									<span>توضیحات فنی درباره نتایج</span>
+								</div>
+								<div class="collapsible-body">
+									<p class="techContent">
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header" data-task-id="checkConventional">
+						<i class="material-icons notranslate">contact_support</i>
+						<div class="task-message rtl">
+							<span>محدودیت رشته</span>
+						</div>
+					</div>
+					<div class="collapsible-body rtl">
+						<h5>محدودیت رشته</h5>
+						<p>این همان چیزی است که بصورت قراردادی «شدو بن یا محدودیت در سایه» نامیده می‌شود که شامل یک محدودیت در جست‌وجو است، در حالی که رشته توییت‌ها و رشته پاسخ‌ها با مخفی کردن پاسخ کاربر آسیب دیده از دید دیگران، کاملا از یکدیگر جدا شده‌اند. همه چیز
+							برای کاربر آسیب دیده عادی بنظر می‌رسد، اما دیگران نمی‌توانند پاسخ‌های آن کاربر را ببینند. دلایل این محدودیت شامل رفتارهایی مانند توییت زدن و دنبال کردن بیش از اندازه است. همچنین بنظر می‌رسد این نوع محدودیت بصورت موقت، شناسه‌‌های فعال را محدود
+							می‌کند.</p>
+						<ul id="threadFAQ" class="collapsible hide">
+							<li class="techInfo">
+								<div class="collapsible-header">
+									<span>توضیحات فنی درباره نتایج</span>
+								</div>
+								<div class="collapsible-body">
+									<p class="techContent">
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header" data-task-id="checkRefTweet">
+						<i class="material-icons notranslate">contact_support</i>
+						<div class="task-message rtl">
+							<span>جداسازی فیلتر کیفیت</span>
+						</div>
+					</div>
+					<div class="collapsible-body rtl">
+						<h5>جداسازی فیلتر کیفیت (QFD)</h5>
+						<p>QFD موجب می‌شود توییت‌های شما زمانی که گزینه فیلتر کیفیت فعال باشد، در بخش آخرین‌های جست‌وجو، از جمله جست‌وجوی هشتگ‌ها، نمایش داده نشوند. در نظر داشته باشید گزینه فیلتر کیفیت که در صفحه جست‌وجو قرار دارد، به صورت پیش فرض فعال است و برای هر
+							جست‌وجو دوباره بازنشانی می‌شود. این گزینه با گزینه کنترل فیلتر کیفیت اعلان‌های شما متفاوت است. QFD، پانزده مه دوهزار و هجده به عنوان بخشی از «<a rel="noreferrer noopener" aria-label="پروژه گفت‌وگوی سالم (در یک برگه جدید باز می‌کند)" href="https://blog.twitter.com/official/en_us/topics/product/2018/Serving_Healthy_Conversation.html"
+							 target="_blank">پروژه گفت‌وگوی سالم</a>» توییتر معرفی شد.</p>
+						<ul id="qfdFAQ" class="collapsible rtl">
+							<li>
+								<div class="collapsible-header rtl">
+									<span>آیا غیرفعال کردن گزینه فیلتر کیفیت در تنظیمات آگاه‌سازی‌ها کمکی می‌کند؟</span>
+								</div>
+								<div class="collapsible-body rtl">
+									<p> گزینه فیلتر کیفیت درون تنظیمات آگاه‌سازی شما تنها آگاه‌سازی‌های دریافتی شما را کنترل می‌کند که غیرفعال کردن آن توصیه می‌شود و موجب می‌شود تا آگاه‌سازی‌های بیشتری که نمی‌توانستید دریافت کنید را مشاهده کنید. با این حال، غیرفعال کردن آن
+										باعث نمی‌شود که توییت‌های شما بیشتر قابل مشاهده باشند.</p>
+								</div>
+							</li>
+							<li>
+								<div class="collapsible-header rtl">
+									<span>چگونه دچار محدودیت QFD شده‌ام؟</span>
+								</div>
+								<div class="collapsible-body rtl">
+									<p> ارتباط زیاد با شناسه‌های تحت تاثیر محدودیت QFD احتمالا باعث می‌شود که شناسه شما هم نیز به زودی تحت تاثیر QFD قرار گیرد. عدم وجود رفتار‌های نامناسب باعث نمی‌شود که لزوما یک شناسه تحت تاثیر قرار نگیرد.</p>
+								</div>
+							</li>
+							<li>
+								<div class="collapsible-header rtl">
+									<span>چگونه از محدودیت QFD خارج شوم؟</span>
+								</div>
+								<div class="collapsible-body rtl">
+									<p> چندین کاربر آلمانی توییتر که تحت تأثیر QFD قرار گرفته بودند، توسط یک بات نت دنبال کردن خودکار عربی مورد آزمایش قرار گرفتند. این بات نت، دنبال کنندگان بسیاری را برای کسانی که برخی از شناسه‌های این بات نت را دنبال کرده‌اند، فراهم کرده
+										است. با جمع آوری بسیاری از دنبال کنندگان جدید که تحت تأثیر QFD قرار نگرفته‌ بودند، حداقل ۳۰ شناسه توانستند از این نوع محدودیت فرار کنند. این یک نکته حائز اهمیت است که جرم جمعی یک ایده اساسی در الگوریتم رده‌بندی و تشخیص این محدودیت است.</p>
+								</div>
+							</li>
+							<li>
+								<div class="collapsible-header rtl">
+									<span>آیا تبعیض سیاسی وجود دارد؟</span>
+								</div>
+								<div class="collapsible-body rtl">
+									<p> در واقع، به نظر می رسد که فیلتر کیفیت عمدتا بر شناسه‌های محافظه کار و جناح راستی تاثیر می‌گذارد. بررسی بیش از ۲۰۰۰ مخاطب از دو شناسه چپ افراطی آلمان، نشان داد که حتی یک شناسه کاربری هم تحت تاثیر QFD نبود، که این از لحاظ سیاسی معقول
+										نیست. بررسی ۵۰۹ شناسه توییتری اعضای پارلمان آلمان، ۱۴ شناسه تحت تاثیر را استخراج کرد که همه آنها متعلق به AfD که یک حزب جناح راست آلمان است، بود.</p>
+								</div>
+							</li>
+							<li>
+								<div class="collapsible-header rtl">
+									<span>آیا فقط هشتگ‌ها و جست‌وجو‌ها را تحت تاثیر قرار می‌دهد؟ چرا اینقدر بد است؟</span>
+								</div>
+								<div class="collapsible-body rtl">
+									<p> ما نمی‌توانیم بگوییم که اثرات QFD محدود به هشتگ‌ها و جست‌وجو است. این‌ها تنها نشانه‌‌هایی است که محدودیت را برای ما قابل مشاهده می‌کند. این نشان می‌دهد که توییتر قادر است و تمایل دارد تا علیه شناسه‌هایی که دیدگاه‌های خاص سیاسی دارند
+										تبعیض قائل شود. از آنجایی که در حال حاضر شدو بن (محدودیت در سایه) یک راه بسیار غیر اخلاقی برای ساکت کردن افراد است، ممکن است توییتر روش‌هایی که شناسایی آن سخت‌تر است استفاده کند. درباره روش‌های نامحسوس‌تر محدودیت، محدود کردن دایره اشتراک
+										گذاری برای دنبال کنندگانی که توییت‌های کاربر برای آن‌ها نمایش داده می‌شود را در نظر بگیرید. این یک روش سانسور است که تنها می‌تواند توسط خود دنبال کنندگان به طور جمعی تشخیص داده شود. </p>
+								</div>
+							</li>
+							<li class="techInfo hide">
+								<div class="collapsible-header">
+									<span>توضیحات فنی درباره نتایج</span>
+								</div>
+								<div class="collapsible-body">
+									<p class="techContent">
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="row">
+		<div class="col s12 offset-m1 m10 offset-l2 l8">
+			<ul id="functionality" class="collapsible popout">
+				<li>
+					<div class="collapsible-header rtl">
+						این ابزار چگونه کار می‌کند؟
+					</div>
+					<div class="collapsible-body rtl">
+						<h5>محدودیت در نتایج جست‌وجو</h5>
+						<p> جست‌وجوی توییتر دارای چندین فیلترکننده نتایج جست‌وجو است. یکی از آن‌ها پیشوند from: است که اجازه می‌دهد توییت‌های یک کاربر بخصوص را جست‌وجو کرد. به عنوان مثال، هنگام بررسی اینکه آیا <a rel="noreferrer noopener" aria-label="@sabarasane (در یک برگه جدید باز می‌کند)"
+							 href="https://twitter.com/sabarasane" target="_blank">@sabarasane</a> تحت تاثیر شدو بن است، کلیده واژه from:@sabarasane را در توییتر جست‌وجو می‌کنیم. اگر ما هیچ توییتی را از آن شناسه پیدا نکردیم درحالی که کاربر در گذشته توییت کرده باشد، این
+							شناسه دچار محدودیت است.</p>
+						<h5>محدودیت رشته</h5>
+						<p> هنگامی که کاربر محدودیت نمایش در نتایج جست‌وجو دارد، آزمایشگر شناسه آن‌ها را برای آخرین توییت که حداقل یک پاسخ داشته باشد جست‌وجو می‌کند، سپس آدرس مستقیم توییت را مرور می‌کند و برخی از پاسخ‌ها را انتخاب می‌کند، پس از آن، آدرس مستقیم پاسخ
+							را مشاهده می‌کند، اگر توییتی که کاربر به آن پاسخ داده باشد قابل مشاهده نباشد، احتمال این که شناسه تحت تاثیر محدودیت در سایه رشته قرار گرفته باشد بسیار زیاد است.</p>
+						<h5>QFD</h5>
+						<p> هنگامی که یک تصویر را آپلود می‌کنید، یک توییت را نقل قول (کوت) می‌کنید یا به یک صفحه خارجی پیوند می‌دهید، توییتر لینک کوتاهی برای آن محتوا ایجاد می‌کند.</p>
+						<p> نخست ما توییت مرجع را با استفاده از ترکیبی از فیلترهای جست‌وجوی from: و filter: می‌یابیم، به عنوان مثال، from:@sabarasane filter:link همه توییت‌های حاوی لینک @sabarasane را باز می‌گرداند.</p>
+						<p> ما به سادگی یکی از نتایج توییت را به عنوان مرجع انتخاب می‌کنیم و لینک کوتاه آن را استخراج می‌کنیم.</p>
+						<p> سپس آن توییت را با استفاده از لینک کوتاه در دو حالت فعال و غیرفعال فیلتر کیفیت، در توییتر جست‌وجو می‌کنیم، اگر توییت مرجع در هر دو حالت یافت شود، شناسه تحت تاثیر QFD قرار نگرفته است. اما چنانچه فقط هنگامی که فیلتر کیفیت غیرفعال باشد، پیدا
+							شود، تحت اثر قرار گرفته است.</p>
+						<p> ما این روش را انتخاب کردیم چون پیوندهای کوتاه منحصر به فرد هستند. از لحاظ روش شناختی، تفاوتی بین جست‌وجوی متن یا هشتگ نیست اما منحصر به فرد بودن لینک های کوتاه یک مزیت فنی است.</p>
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<footer class="section">
+		<div class="row">
+			<div class="col offset-s2 s8 center-align">
+				هیچ‌گونه داده‌ای ذخیره نمی‌شود
+				<br />
+				<a href="https://github.com/sabarasane/TwitterShadowBanV2"><i class="fab fa-github blue-text"></i></a>
+			</div>
+		</div>
+	</footer>
+	<div id="qf-setting-toast-template" class="hide">
+		<div class="row rtl">
+			<div class="col s12 rtl">
+				<p>لطفا توجه داشته باشید: گزینه «<strong>فیلتر کیفیت</strong>» در تنظیمات آگاه‌سازی‌ها میزان دیده‌شدن توییت های شما را افزایش <strong>نمی‌دهد</strong> اگرچه فیلتر کیفیت را برای نتایج جست‌وجو غیرفعال می‌کند.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 center">
+				<button class="btn-flat toast-action" onClick="ui.qfSettingToastDimsmiss();">خب</button>
+				<button class="btn-flat toast-action" onClick="ui.qfSettingToastShowMore();">بیشتر</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="vendor/materialize/js/materialize.js"></script>
+	<script src='js/main.bundle-1.3.3-development.js'></script>
+</body>
+
 </html>
